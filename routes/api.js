@@ -1,12 +1,14 @@
 const router = require('express').Router();
 const bookModel = require('../model/book_model');
 
+// Displays all the book data
 router.get('/books', async function (req, res) {
    const bookList = await bookModel.find();
    console.log(bookList);
    res.send(bookList);
 });
 
+// Displays the data of a specified book
 router.get('/books/:id', async function (req, res) {
     const { id } = req.params;
     const book = await bookModel.findOne({isbn : id});
@@ -14,6 +16,7 @@ router.get('/books/:id', async function (req, res) {
     res.send(book);
 });
 
+// Insert new book data
 router.post('/books', async function (req, res) {
     const title= req.body.title;
     const isbn = req.body.isbn;
@@ -28,7 +31,7 @@ router.post('/books', async function (req, res) {
     res.send("Book Uploaded");
 });
 
-
+// Update an existing book data
 router.put('/books/:id', async function (req, res) {
     const { id } = req.params;
     const {
@@ -54,6 +57,7 @@ router.put('/books/:id', async function (req, res) {
     res.status(200).send("Book Updated");
 });
 
+// Delete a specific book from the collection
 router.delete('/books/:id', async function (req, res) {
     const { id } = req.params;
 

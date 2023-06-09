@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const db = require('../config/db');
 
+// Book info to be stored with columns
 const bookSchema = new mongoose.Schema({
     title:{
         type:String,
