@@ -26,7 +26,7 @@ router.post('/books', async function (req, res) {
     if (bookExist) return res.send('Book already exist');
 
     var data = await bookModel.create({title,isbn,author});
-    data.save();
+    data.save();    
 
     res.send("Book Uploaded");
 });
@@ -36,7 +36,7 @@ router.put('/books/:id', async function (req, res) {
     const { id } = req.params;
     const {
         title,
-        authors,
+        author,
     } = req.body;
 
     const bookExist = await bookModel.findOne({isbn : id});
@@ -48,11 +48,11 @@ router.put('/books/:id', async function (req, res) {
     const updatedBook = {
         ...bookExist ,
         title: updateField(title, bookExist.title),
-        authors: updateField(authors, bookExist.authors),
+        author: updateField(author, bookExist.author),
         
     };
 
-    await bookModel.updateOne({isbn: id},{$set :{title : updatedBook.title, author: updatedBook.authors}})
+    await bookModel.updateOne({isbn: id},{$set :{title : updatedBook.title, author: updatedBook.author}})
     
     res.status(200).send("Book Updated");
 });
@@ -67,6 +67,20 @@ router.delete('/books/:id', async function (req, res) {
    await bookModel.deleteOne({ isbn: id }).then(function(){
         console.log("Data deleted"); // Success
         res.send("Book Record Deleted Successfully")
+    }).catch(function(error){
+        console.log(error); // Failure
+    });
+}); 
+
+// Delete a all book from the collection
+router.delete('/books', async function (req, res) {
+
+    const bookExist = await bookModel.find();
+    if (!bookExist) return res.send('Book Do Not exist');
+
+   await bookModel.deleteMany().then(function(){
+        console.log("All Data deleted"); // Success
+        res.send("All Book Record Deleted Successfully")
     }).catch(function(error){
         console.log(error); // Failure
     });

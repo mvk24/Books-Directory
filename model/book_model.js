@@ -15,7 +15,7 @@ const bookSchema = new mongoose.Schema({
         default:"----"
     }
 });
-
+//creating models
 const bookmodel = db.model('books',bookSchema);
 
 module.exports = bookmodel;

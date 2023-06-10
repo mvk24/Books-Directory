@@ -11,3 +11,4 @@ app.use('/', api);
 
 // Successful msg
 app.listen(PORT, () => console.log(`App listening on port ${PORT}`));
+console.log("Mongoose connection is established ")
